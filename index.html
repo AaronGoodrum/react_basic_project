@@ -3,16 +3,13 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Hello world</title><!-- Script tags including React -->
+  <title>Building React App</title><!-- Script tags including React -->
 
   <!-- Styles -->
-  <link href="css\Timeline.css" rel="stylesheet" type="text/css"/>
-  <link href="css\index.css" rel="stylesheet" type="text/css"/>
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-  <!-- JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <link href="css/index.css" rel="stylesheet" type="text/css"/>
+  <link href="https://use.fontawesome.com/09d1616766.css" rel="stylesheet" type="text/css"/>
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+
   
 </head>
 
@@ -20,8 +17,10 @@
 
   <div id="app"></div>
 
+
   <script type="text/babel">
   var mount = document.querySelector('#app')
+  var mountContent = document.querySelector('#content')
 
     class App extends React.Component{
       render() {
@@ -29,16 +28,94 @@
           <div className="notificationsFrame">
             <div className="panel">
               { /* content goes here */ }
+              <Header />
+              <Content />
             </div>
           </div>
         )
       }
     }
 
-    
+    class Header extends React.Component {
+      render() {
+        return (
+          <div className= "header">
+            <div className="fa fa-more"></div>
+
+            <span className="title">Timeline</span>
+              <input
+              type = "text"
+              className="searchInput"
+              placeholder="Search ..."/>
+
+            <div className="fa fa-search searchIcon"></div>
+          </div>
+        )
+      }
+    }
+
+    class Content extends React.Component {
+      render() {
+        return (
+          <div className="content">
+          <div className="line">
+          </div>
+          <div className="item">
+            <div className="avatar">
+              <img
+              alt='doug'
+              src="http://www.croop.cl/UI/twitter/images/doug.jpg"/>
+
+            </div>
+            <span className="time">An hour ago</span>
+              <p>Ate lunch</p>  
+          </div>
+          <div className="item">
+            <div className="avatar">
+              <img 
+              alt='doug'
+              src="http://www.croop.cl/UI/twitter/images/doug.jpg"/>
+
+            </div>
+            <span className="time">10 am</span>
+              <p>Read Day two article</p>
+            </div>
+            <div className="item">
+              <div className="avatar">
+                <img
+                alt='doug'
+                src="http://www.croop.cl/UI/twitter/images/doug.jpg"/>
+
+              </div>
+              <span className="time">10 am</span>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            </div>
+            <div className="item">
+              <div className="avatar">
+                <img
+                alt='doug'
+                src="http://www.croop.cl/UI/twitter/images/doug.jpg"/>
+                
+              </div>
+              <span className="time">2:21 pm</span>
+                <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            </div>
+          </div>
+        )
+      }
+    }
+
+
     ReactDOM.render (<App />, mount)
+    
   </script>
 </body>
+
+  <!-- JavaScript -->
+  <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script src="https://use.fontawesome.com/09d1616766.js"></script>
 
 <!-- <script src="index.js"></script> -->
 </html>
