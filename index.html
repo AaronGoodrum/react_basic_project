@@ -6,36 +6,39 @@
   <title>Hello world</title><!-- Script tags including React -->
 
   <!-- Styles -->
-  <link href="https://gist.githubusercontent.com/auser/2bc34b9abf07f34f602dccd6ca855df1/raw/070d6cd5b4d4ec1a3e6892d43e877039a91a9108/timeline.css"rel="stylesheet"type="text/css"/>
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"rel="stylesheet"type="text/css"/>
+  <link href="css\Timeline.css" rel="stylesheet" type="text/css"/>
+  <link href="css\index.css" rel="stylesheet" type="text/css"/>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
   <!-- JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  
 </head>
 
 <body>
-  
+
   <div id="app"></div>
-  <div id="appES6"></div>
 
   <script type="text/babel">
-    var app = <h1>Hello world</h1>
-    var mountComponent = document.querySelector('#app');    
-    var mount = document.querySelector('#appES6')
-    
-    //ES6 component
-    class App extends React.Component {
-        render() {
-          return <h2> Hello from our app</h2>
-        }
+  var mount = document.querySelector('#app')
+
+    class App extends React.Component{
+      render() {
+        return (
+          <div className="notificationsFrame">
+            <div className="panel">
+              { /* content goes here */ }
+            </div>
+          </div>
+        )
       }
-    //ReactDOM.render(<what>, <where>)
-    ReactDOM.render(app, mountComponent);
-    ReactDOM.render(<App />, mount)
+    }
 
+    
+    ReactDOM.render (<App />, mount)
   </script>
-
 </body>
 
+<!-- <script src="index.js"></script> -->
 </html>
