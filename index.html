@@ -6,11 +6,12 @@
   <title>Building React App</title><!-- Script tags including React -->
 
   <!-- Styles -->
-  <link href="css/index.css" rel="stylesheet" type="text/css"/>
-  <link href="https://use.fontawesome.com/09d1616766.css" rel="stylesheet" type="text/css"/>
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  <link href="css/index.css" rel="stylesheet" type="text/css" />
+  <link href="https://use.fontawesome.com/09d1616766.css" rel="stylesheet" type="text/css" />
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    type="text/css" />
 
-  
+
 </head>
 
 <body>
@@ -19,7 +20,7 @@
 
 
   <script type="text/babel">
-  var mount = document.querySelector('#app')
+    var mount = document.querySelector('#app')
   var mountContent = document.querySelector('#content')
 
   //contains multiple activity items for the timeline, will need to be replace with api call
@@ -128,18 +129,38 @@
     }
 
     class Clock extends React.Component {
+      constructor(props){
+        super(props)
+        this.state = this.getTime()
+      }
+
+      setTimer(){
+        clearTimeout(this.timeout)
+        this.timeout = setTimeout(this.updateClock.bind(this), 1000)
+      }
+      updateClock() {
+        const currentTime = new Date()
+        this.setState({
+          currentTime: currentTime  
+        }, this.setTimer())
+      }
+      getTime() {
+        const currentTime = new Date()
+        return {
+            hours: currentTime.getHours(),
+            minutes: currentTime.getMinutes(),
+            seconds: currentTime.getSeconds(),
+            ampm: currentTime.getHours() >= 12 ? 'pm' : 'am'
+        }
+      }
+    
       render() {
-        const currentTime = new Date(),
-              hours = currentTime.getHours(),
-              minutes = currentTime.getMinutes(),
-              seconds = currentTime.getSeconds(),
-              ampm = hours >= 12 ? 'pm' : 'am';
+        const { hours, minutes, seconds, ampm } = this.state
  
-        
         return (
           <div className = "clock">
             {
-              hours == 0 ? 12 : (hours > 12) ? hours - 12 : hours
+              hours === 0 ? 12 : (hours > 12) ? hours - 12 : hours
             }:{
               minutes > 9 ? minutes : `0${minutes}`
             }:{
@@ -156,11 +177,12 @@
   </script>
 </body>
 
-  <!-- JavaScript -->
-  <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-  <script src="https://use.fontawesome.com/09d1616766.js"></script>
+<!-- JavaScript -->
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script src="https://use.fontawesome.com/09d1616766.js"></script>
 
 <!-- <script src="index.js"></script> -->
+
 </html>
