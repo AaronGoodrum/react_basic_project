@@ -69,6 +69,7 @@
 
             <span className="title">
               {this.props.title}
+              <Clock />
               </span>
               
             <input
@@ -123,6 +124,21 @@
             </div>
             </div>
           )
+      }
+    }
+
+    class Clock extends React.Component {
+      render() {
+        const currentTime = new Date(),
+              hours = currentTime.getHours()
+        
+        return (
+          <div className = "clock">
+            {
+              hours == 0 ? 12 : (hours > 12) ? hours - 12 : hours
+            }
+          </div>
+        )
       }
     }
 
