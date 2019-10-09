@@ -20,8 +20,8 @@
 
 
   <script type="text/babel">
-    var mount = document.querySelector('#app')
-  var mountContent = document.querySelector('#content')
+    const mount = document.querySelector('#app')
+    const mountContent = document.querySelector('#content')
 
   //contains multiple activity items for the timeline, will need to be replace with api call
   const activities = [{
@@ -41,8 +41,10 @@
       name: 'Ari',
       avatar: "http://www.croop.cl/UI/twitter/images/doug.jpg"
     },
-    comments:[{ from: 'Nate', text: 'I am so jealous'}]
+    comments:[{ from: 'Nate', text: 'I am so jealous'}, { from: 'Keven', text: 'We getting some food later'}]
   }]
+
+  const data = activities
 
     class App extends React.Component{
       render() {
@@ -85,13 +87,42 @@
     }
 
     class Content extends React.Component {
+      constructor(props){
+        super(props)
+
+        this.state = {
+          loading: false,
+          activities:[]
+        }
+      }
+
+      componentWillUnmount() {
+        this.setState({activities:data})
+      }
+
+      componentDidMount(nextProps) {
+        this.updateData()
+      }
+      
+  // Call out to github data and refresh directory
+  updateData() {
+    this.setState({
+      loading: false,
+      activities: data
+      .sort(() => 0.5 - Math.random()).slice(0, 4)
+    }, this.props.onComponentRefresh);
+
+}
+
+
       render() {
-        const {activities} = this.props //ES6 destructuring
+        const {loading, activities} = this.state //ES6 destructuring
 
         return(
           <div className="content">
             <div className="line"></div>
-          
+          {/* Show loading message if loading */}
+          {loading && <div>Loading</div>}
             {/* Timeline items*/}
             {activities.map((activity) => (
               <ActivityItem activity={activity} key={activity.user.id} />
@@ -123,6 +154,16 @@
               </div>  
             </div>
           )
+      }
+    }
+
+    class Footer extends React.Component {
+      render() {
+        return (
+          <div className='footer'>
+            {this.props.children}
+          </div>
+        )
       }
     }
 
@@ -175,6 +216,43 @@
             }:{
               seconds > 9 ? seconds : `0${seconds}`
             } {ampm}
+          </div>
+        )
+      }
+    }
+
+    class Container extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {refreshing: false}
+      }
+      // Bound to the refresh button
+      refresh() {
+        this.setState({refreshing: true})
+      }
+      // Callback from the `Content` component
+      onComponentRefresh() {
+        this.setState({refreshing: false});
+      }
+      render() {
+        const {refreshing} = this.state;
+        return (
+          <div className='notificationsFrame'>
+            <div className='panel'>
+              <Header title="Github activity" />
+              {/* refreshing is the component's state */}
+              <Content
+                onComponentRefresh={this.onComponentRefresh.bind(this)}
+                requestRefresh={refreshing}
+                fetchData={fetchEvents} />
+              {/* A container for styling */}
+              <Footer>
+                <button onClick={this.refresh.bind(this)}>
+                  <i className="fa fa-refresh" />
+                  Refresh
+                </button>
+              </Footer>
+            </div>
           </div>
         )
       }
