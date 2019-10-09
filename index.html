@@ -94,7 +94,7 @@
           
             {/* Timeline items*/}
             {activities.map((activity) => (
-              <ActivityItem activity={activity} />
+              <ActivityItem activity={activity} key={activity.user.id} />
               )
             )}
           </div>
@@ -106,7 +106,6 @@
       render() {
         const {activity} = this.props //ES6 destructuring             
           return (
-            <div key={activity.user.id}>
             <div className="item">
               <div className="avatar">
                 <img
@@ -123,7 +122,6 @@
                 {activity.comments.length}
               </div>  
             </div>
-            </div>
           )
       }
     }
@@ -133,17 +131,28 @@
         super(props)
         this.state = this.getTime()
       }
+      componentDidMount() {
+          this.setTimer()
+        }
+        
+        componentWillUnmount() {
+          if (this.timeout) {
+            clearTimeout(this.timeout)
+          }
+        }
+        setTimer() {
+          clearTimeout(this.timeout)
+          this.timeout = setTimeout(this.updateClock.bind(this), 1000)
+        }
 
-      setTimer(){
-        clearTimeout(this.timeout)
-        this.timeout = setTimeout(this.updateClock.bind(this), 1000)
-      }
-      updateClock() {
-        const currentTime = new Date()
-        this.setState({
-          currentTime: currentTime  
-        }, this.setTimer())
-      }
+        updateClock() {
+          const currentTime = new Date()
+          // Will undate the clock every 1000ms
+          this.setState(this.getTime, this.setTimer)
+          // this.setState({
+          //   currentTime: currentTime  
+          // }, this.setTimer())
+        }
       getTime() {
         const currentTime = new Date()
         return {
