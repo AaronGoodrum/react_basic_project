@@ -88,12 +88,24 @@
 
         return(
           <div className="content">
-          <div className="line"></div>
-        
-          {/* Timeline items*/}
-          {activities.map((activity) =>{ 
+            <div className="line"></div>
+          
+            {/* Timeline items*/}
+            {activities.map((activity) => (
+              <ActivityItem activity={activity} />
+              )
+            )}
+          </div>
+        )
+      }
+    }
+
+    class ActivityItem extends React.Component {
+      render() {
+        const {activity} = this.props //ES6 destructuring             
           return (
-            <div className="item" key={activity.user.id}>
+            <div key={activity.user.id}>
+            <div className="item">
               <div className="avatar">
                 <img
                 alt={activity.text}
@@ -109,10 +121,8 @@
                 {activity.comments.length}
               </div>  
             </div>
+            </div>
           )
-        })}
-          </div>
-        )
       }
     }
 
