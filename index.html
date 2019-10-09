@@ -22,14 +22,35 @@
   var mount = document.querySelector('#app')
   var mountContent = document.querySelector('#content')
 
+  //contains multiple activity items for the timeline, will need to be replace with api call
+  const activities = [{
+    timestamp: new Date().getTime(),
+    text: "Ate lunch",
+    user:{
+      id: 1,
+      name: 'Nate',
+      avatar: "http://www.croop.cl/UI/twitter/images/doug.jpg"
+    },
+    comments:[{ from: 'Ari', text: 'Me too!'}]
+  },
+  {timestamp: new Date().getTime(),
+    text: "Woke up early for a run",
+    user:{
+      id: 2,
+      name: 'Ari',
+      avatar: "http://www.croop.cl/UI/twitter/images/doug.jpg"
+    },
+    comments:[{ from: 'Nate', text: 'I am so jealous'}]
+  }]
+
     class App extends React.Component{
       render() {
         return (
           <div className="notificationsFrame">
             <div className="panel">
               { /* content goes here */ }
-              <Header />
-              <Content />
+              <Header title='Timeline' />
+              <Content activities={activities}/>
             </div>
           </div>
         )
@@ -40,10 +61,17 @@
       render() {
         return (
           <div className= "header">
-            <div className="fa fa-more"></div>
+            <div className="fa fa-bars menuIcon">
+              <div className= "dashTop"></div>
+              <div className= "dashBottom"></div>
+              <div className= "circle"></div>  
+            </div>
 
-            <span className="title">Timeline</span>
-              <input
+            <span className="title">
+              {this.props.title}
+              </span>
+              
+            <input
               type = "text"
               className="searchInput"
               placeholder="Search ..."/>
@@ -56,50 +84,33 @@
 
     class Content extends React.Component {
       render() {
-        return (
+        const {activities} = this.props //ES6 destructuring
+
+        return(
           <div className="content">
-          <div className="line">
-          </div>
-          <div className="item">
-            <div className="avatar">
-              <img
-              alt='doug'
-              src="http://www.croop.cl/UI/twitter/images/doug.jpg"/>
-
-            </div>
-            <span className="time">An hour ago</span>
-              <p>Ate lunch</p>  
-          </div>
-          <div className="item">
-            <div className="avatar">
-              <img 
-              alt='doug'
-              src="http://www.croop.cl/UI/twitter/images/doug.jpg"/>
-
-            </div>
-            <span className="time">10 am</span>
-              <p>Read Day two article</p>
-            </div>
-            <div className="item">
+          <div className="line"></div>
+        
+          {/* Timeline items*/}
+          {activities.map((activity) =>{ 
+          return (
+            <div className="item" key={activity.user.id}>
               <div className="avatar">
                 <img
-                alt='doug'
-                src="http://www.croop.cl/UI/twitter/images/doug.jpg"/>
+                alt={activity.text}
+                src={activity.user.avatar}/>
+                {activity.user.name}
+              </div>
 
-              </div>
-              <span className="time">10 am</span>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+              <span className="time">
+                {activity.timestamp}  
+              </span>
+                <p>{activity.text}</p>
+              <div className="commentCount">
+                {activity.comments.length}
+              </div>  
             </div>
-            <div className="item">
-              <div className="avatar">
-                <img
-                alt='doug'
-                src="http://www.croop.cl/UI/twitter/images/doug.jpg"/>
-                
-              </div>
-              <span className="time">2:21 pm</span>
-                <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-            </div>
+          )
+        })}
           </div>
         )
       }
